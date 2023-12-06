@@ -8,7 +8,6 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
-        hintText: "Search for Statistics",
         helperStyle: TextStyle(
           color: textColor.withOpacity(0.5),fontSize: 15,
         ),
