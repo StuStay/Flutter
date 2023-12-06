@@ -8,62 +8,30 @@ List<AnalyticInfo> analyticData = [
   AnalyticInfo(
     title: "Total Payments",
     count: 900,
-    svgSrc: "assets/icons/GenericMoney.svg", // Placeholder for a money-related icon
+    svgSrc: "",
     color: primaryColor,
   ),
   AnalyticInfo(
     title: "Successful Payments",
     count: 820,
-    svgSrc: "assets/icons/GenericSuccess.svg", // Placeholder for a success-related icon
+    svgSrc: "",
     color: purple,
   ),
   AnalyticInfo(
     title: "Pending Payments",
     count: 70,
-    svgSrc: "assets/icons/GenericClock.svg", // Placeholder for a clock or time-related icon
+    svgSrc: "",
     color: orange,
   ),
   AnalyticInfo(
     title: "Failed Payments",
     count: 10,
-    svgSrc: "assets/icons/GenericFailed.svg", // Placeholder for a failure-related icon
+    svgSrc: "",
     color: green,
   ),
 ];
 
 
-List discussionData = [
-  DiscussionInfoModel(
-    imageSrc: "assets/images/photo1.jpg",
-    name: "Lutfhi Chan",
-    date: "Jan 25,2021",
-  ),
-  DiscussionInfoModel(
-    imageSrc: "assets/images/photo2.jpg",
-    name: "Devi Carlos",
-    date: "Jan 25,2021",
-  ),
-  DiscussionInfoModel(
-    imageSrc: "assets/images/photo3.jpg",
-    name: "Danar Comel",
-    date: "Jan 25,2021",
-  ),
-  DiscussionInfoModel(
-    imageSrc: "assets/images/photo4.jpg",
-    name: "Karin Lumina",
-    date: "Jan 25,2021",
-  ),
-  DiscussionInfoModel(
-    imageSrc: "assets/images/photo5.jpg",
-    name: "Fandid Deadan",
-    date: "Jan 25,2021",
-  ),
-  DiscussionInfoModel(
-    imageSrc: "assets/images/photo1.jpg",
-    name: "Lutfhi Chan",
-    date: "Jan 25,2021",
-  ),
-];
 
 List referalData = [
   ReferalInfoModel(
