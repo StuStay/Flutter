@@ -33,13 +33,7 @@ class DrawerMenu extends StatelessWidget {
                 );
               }),
 
-          DrawerListTile(
-              title: 'Statistics',
-              svgSrc: 'assets/icons/Statistics.svg',
-              tap: () {
-                // Navigate to Statistics
-                // You can replace this with the appropriate route for your statistics
-              }),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: appPadding * 2),
             child: Divider(

@@ -33,30 +33,4 @@ List<AnalyticInfo> analyticData = [
 
 
 
-List referalData = [
-  ReferalInfoModel(
-    title: "Ahmed Maadi",
-    count: 500,
-    svgSrc: "",
-    color: primaryColor,
-  ),
-  ReferalInfoModel(
-    title: "Med Amine Bouallegue",
-    count: 440,
-    svgSrc: "",
-    color: primaryColor,
-  ),
-  ReferalInfoModel(
-    title: "Malek Saker",
-    count: 234,
-    svgSrc: "",
-    color: primaryColor,
-  ),
 
-  ReferalInfoModel(
-    title: "Khmayes Bonguicha",
-    count: 105,
-    svgSrc: "",
-    color: red,
-  ),
-];
