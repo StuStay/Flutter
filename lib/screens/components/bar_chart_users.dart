@@ -1,179 +1,123 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_admin_dashboard/constants/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class BarChartUsers extends StatelessWidget {
-  const BarChartUsers({Key? key}) : super(key: key);
+import '../../constants/constants.dart';
+
+class BarChartLogements extends StatefulWidget {
+  const BarChartLogements({Key? key}) : super(key: key);
+
+  @override
+  _BarChartLogementsState createState() => _BarChartLogementsState();
+}
+
+class _BarChartLogementsState extends State<BarChartLogements> {
+  List<DataPoint> dataPoints = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDataPoints();
+  }
+
+  Future<void> _fetchDataPoints() async {
+    try {
+      final response = await http.get(Uri.parse('http://localhost:3000/api/logements'));
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(response.body);
+
+        // Group data by year and sum amounts
+        final Map<int, double> amountsByYear = {};
+
+        jsonData.forEach((data) {
+          int year = _parseDate(data['date']).year;
+          amountsByYear[year] = (amountsByYear[year] ?? 0) + data['amount'].toDouble();
+        });
+
+        final List<DataPoint> fetchedDataPoints = amountsByYear.entries.map((entry) {
+          return DataPoint(
+            x: entry.key.toDouble(),
+            y: entry.value,
+          );
+        }).toList();
+
+        setState(() {
+          dataPoints = fetchedDataPoints;
+        });
+      } else {
+        throw Exception('Failed to load data points');
+      }
+    } catch (e) {
+      print('Error fetching data points: $e');
+    }
+  }
+
+  // Convert date string to DateTime
+  DateTime _parseDate(String dateString) {
+    return DateTime.parse(dateString);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BarChart(BarChartData(
+    print(dataPoints); // Print dataPoints to inspect the data
+
+    return BarChart(
+      BarChartData(
         borderData: FlBorderData(border: Border.all(width: 0)),
         groupsSpace: 15,
         titlesData: FlTitlesData(
-            show: true,
-            bottomTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (value) => const TextStyle(
-                      color: lightTextColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
-                margin: appPadding,
-                getTitles: (double value) {
-                  if (value == 2) {
-                    return 'jan 6';
-                  } if (value == 4) {
-                    return 'jan 8';
-                  }if (value == 6) {
-                    return 'jan 10';
-                  } if (value == 8) {
-                    return 'jan 12';
-                  }if (value == 10) {
-                    return 'jan 14';
-                  }if (value == 12) {
-                    return 'jan 16';
-                  }if (value == 14) {
-                    return 'jan 18';
-                  }else {
-                    return '';
-                  }
-                }),
+          show: true,
+          bottomTitles: SideTitles(
+            showTitles: true,
+            getTextStyles: (value) => const TextStyle(
+              color: lightTextColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+            margin: appPadding,
+            rotateAngle: -45,
+            getTitles: (double value) {
+              return value.toInt().toString();
+            },
+          ),
           leftTitles: SideTitles(
-              showTitles: true,
-              getTextStyles: (value) => const TextStyle(
-                color: lightTextColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-              margin: appPadding,
-              getTitles: (double value) {
-                if (value == 2) {
-                  return '1K';
-                } if (value == 6) {
-                  return '2K';
-                } if (value == 10) {
-                  return '3K';
-                }if (value == 14) {
-                  return '4K';
-                }else {
-                  return '';
-                }
-              })
+            showTitles: true,
+            getTextStyles: (value) => const TextStyle(
+              color: lightTextColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+            margin: appPadding,
+            getTitles: (double value) {
+              if (value % 500 == 0) {
+                return '${value.toInt()} TND';
+              }
+              return '';
+            },
+          ),
         ),
-        barGroups: [
-          BarChartGroupData(x: 1, barRods: [
-            BarChartRodData(
-              y: 10,
-              width: 20,
-              colors: [primaryColor],
-              borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 2, barRods: [
-            BarChartRodData(
-                y: 3,
+        barGroups: dataPoints.map((dataPoint) {
+          return BarChartGroupData(
+            x: dataPoint.x.toInt(),
+            barRods: [
+              BarChartRodData(
+                y: dataPoint.y,
                 width: 20,
                 colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 3, barRods: [
-            BarChartRodData(
-                y: 12,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 4, barRods: [
-            BarChartRodData(
-                y: 8,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 5, barRods: [
-            BarChartRodData(
-                y: 6,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 6, barRods: [
-            BarChartRodData(
-                y: 10,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 7, barRods: [
-            BarChartRodData(
-                y: 16,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 8, barRods: [
-            BarChartRodData(
-                y: 6,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 9, barRods: [
-            BarChartRodData(
-                y: 4,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 10, barRods: [
-            BarChartRodData(
-                y: 9,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 11, barRods: [
-            BarChartRodData(
-                y: 12,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 12, barRods: [
-            BarChartRodData(
-                y: 2,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 13, barRods: [
-            BarChartRodData(
-                y: 13,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 14, barRods: [
-            BarChartRodData(
-                y: 15,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-        ]));
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ],
+          );
+        }).toList(),
+      ),
+    );
   }
+}
+
+class DataPoint {
+  final double x; // Assuming 'x' represents the year
+  final double y; // Assuming 'y' represents the total amount for the year
+
+  DataPoint({required this.x, required this.y});
 }

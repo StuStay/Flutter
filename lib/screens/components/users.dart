@@ -20,7 +20,7 @@ class Users extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Payments Trends",
+            "Number of Housing ",
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 15,
@@ -28,7 +28,7 @@ class Users extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: BarChartUsers(),
+            child: BarChartLogements(), 
           )
         ],
       ),

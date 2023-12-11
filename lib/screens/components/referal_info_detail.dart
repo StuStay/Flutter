@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_admin_dashboard/constants/constants.dart';
-import 'package:responsive_admin_dashboard/models/referal_info_model.dart';
+
+import '../../models/referal_info_model.dart';
 
 class ReferalInfoDetail extends StatelessWidget {
   const ReferalInfoDetail({Key? key, required this.info}) : super(key: key);
 
-  final ReferalInfoModel info;
+  final TopReferalInfoModel info;
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,10 @@ class ReferalInfoDetail extends StatelessWidget {
             height: 40,
             width: 40,
             decoration: BoxDecoration(
-              color: info.color!.withOpacity(0.1),
+              color: info.color.withOpacity(0.1),
               borderRadius: BorderRadius.circular(30),
             ),
-            child: SvgPicture.asset(
-              info.svgSrc!,
-              color: info.color!,
-            ),
+
           ),
           Expanded(
             child: Padding(
@@ -35,7 +32,7 @@ class ReferalInfoDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    info.title!,
+                    info.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -43,7 +40,7 @@ class ReferalInfoDetail extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${info.count!}',
+                    '${info.count ?? 0}', // Use null-aware operator
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: textColor,

@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ReferalInfoModel {
-  final String? svgSrc, title;
+class TopReferalInfoModel {
+  final String title;
   final int? count;
-  final Color? color;
+  final Color color;
 
-  ReferalInfoModel({
-    this.svgSrc,
-    this.title,
-    this.count,
-    this.color,
-  });
+  TopReferalInfoModel({required this.title, this.count, required this.color});
 }
-

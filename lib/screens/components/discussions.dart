@@ -1,7 +1,9 @@
 
+
+
 import 'package:flutter/material.dart';
 import 'package:responsive_admin_dashboard/constants/constants.dart';
-import 'package:responsive_admin_dashboard/data/data.dart';
+
 
 import 'discussion_info_detail.dart';
 
@@ -10,6 +12,7 @@ class Discussions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var discussionData;
     return Container(
       height: 540,
       padding: EdgeInsets.all(appPadding),

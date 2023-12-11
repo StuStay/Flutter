@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_admin_dashboard/constants/constants.dart';
 import 'package:responsive_admin_dashboard/screens/components/drawer_list_tile.dart';
+import 'logement_list.dart'; 
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
@@ -17,16 +18,20 @@ class DrawerMenu extends StatelessWidget {
           DrawerListTile(
               title: 'Dash Board',
               svgSrc: 'assets/icons/Dashboard.svg',
-              tap: () {}),
+              tap: () {
+       
+              }),
           DrawerListTile(
-              title: 'Payments List',
+              title: 'Logement List',
               svgSrc: 'assets/icons/BlogPost.svg',
-              tap: () {}),
+              tap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LogementList()),
+                );
+              }),
 
-          DrawerListTile(
-              title: 'Statistics',
-              svgSrc: 'assets/icons/Statistics.svg',
-              tap: () {}),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: appPadding * 2),
             child: Divider(
@@ -34,9 +39,6 @@ class DrawerMenu extends StatelessWidget {
               thickness: 0.2,
             ),
           ),
-
-
-
         ],
       ),
     );
