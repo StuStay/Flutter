@@ -35,7 +35,7 @@ List<AnalyticInfo> analyticData = [
 
 List referalData = [
   ReferalInfoModel(
-    title: "Ahmed Maadi",
+    title: "Yassine",
     count: 500,
     svgSrc: "",
     color: primaryColor,
@@ -47,7 +47,7 @@ List referalData = [
     color: primaryColor,
   ),
   ReferalInfoModel(
-    title: "Malek Saker",
+    title: "Ons",
     count: 234,
     svgSrc: "",
     color: primaryColor,

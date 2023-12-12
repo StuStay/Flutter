@@ -77,7 +77,7 @@ class UsersByDevice extends StatelessWidget {
                         size: 10,
                       ),
                       SizedBox(width: appPadding /2,),
-                      Text('Recalamtion Normale',style: TextStyle(
+                      Text('Recalamtion',style: TextStyle(
                         color: textColor.withOpacity(0.5),
                         fontWeight: FontWeight.bold,
                       ),)
