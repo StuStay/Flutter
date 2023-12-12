@@ -20,7 +20,7 @@ class Users extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Number of Payments ",
+            "Number of Reclamation ",
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 15,
@@ -28,7 +28,7 @@ class Users extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: BarChartPayments(), // Use BarChartPayments widget here
+            child: BarChartReclamations(), 
           )
         ],
       ),

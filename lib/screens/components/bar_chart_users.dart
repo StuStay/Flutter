@@ -2,8 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_admin_dashboard/constants/constants.dart';
 
-class BarChartPayments extends StatelessWidget {
-  const BarChartPayments({Key? key}) : super(key: key);
+class BarChartReclamations extends StatelessWidget {
+  const BarChartReclamations({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -20,7 +20,7 @@ class UsersByDevice extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Payment Method',
+              'Reclamtion Method',
               style: TextStyle(
                 color: textColor,
                 fontSize: 15,
@@ -63,7 +63,7 @@ class UsersByDevice extends StatelessWidget {
                         size: 10,
                       ),
                       SizedBox(width: appPadding /2,),
-                      Text('Credit Card',style: TextStyle(
+                      Text('Recalamtion Urgente',style: TextStyle(
                         color: textColor.withOpacity(0.5),
                         fontWeight: FontWeight.bold,
                       ),)
@@ -77,7 +77,7 @@ class UsersByDevice extends StatelessWidget {
                         size: 10,
                       ),
                       SizedBox(width: appPadding /2,),
-                      Text('Cash',style: TextStyle(
+                      Text('Recalamtion Normale',style: TextStyle(
                         color: textColor.withOpacity(0.5),
                         fontWeight: FontWeight.bold,
                       ),)

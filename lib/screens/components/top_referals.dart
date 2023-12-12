@@ -23,7 +23,7 @@ class TopReferals extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Top Amount',
+                'Top Reclame',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,

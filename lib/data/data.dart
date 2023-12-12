@@ -6,25 +6,25 @@ import 'package:responsive_admin_dashboard/models/referal_info_model.dart';
 
 List<AnalyticInfo> analyticData = [
   AnalyticInfo(
-    title: "Total Payments",
+    title: "Total Reclamation",
     count: 900,
     svgSrc: "",
     color: primaryColor,
   ),
   AnalyticInfo(
-    title: "Successful Payments",
+    title: "Successful Reclamation",
     count: 820,
     svgSrc: "",
     color: purple,
   ),
   AnalyticInfo(
-    title: "Pending Payments",
+    title: "Pending Reclamation",
     count: 70,
     svgSrc: "",
     color: orange,
   ),
   AnalyticInfo(
-    title: "Failed Payments",
+    title: "Failed Reclamation",
     count: 10,
     svgSrc: "",
     color: green,

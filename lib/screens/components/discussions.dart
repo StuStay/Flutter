@@ -10,6 +10,7 @@ class Discussions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var discussionData;
     return Container(
       height: 540,
       padding: EdgeInsets.all(appPadding),

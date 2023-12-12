@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_admin_dashboard/constants/constants.dart';
 import 'package:responsive_admin_dashboard/screens/components/drawer_list_tile.dart';
-import 'payment_list.dart'; // Import your PaymentList widget
+import 'reclamation_list.dart'; // Import your PaymentList widget
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
@@ -23,13 +23,13 @@ class DrawerMenu extends StatelessWidget {
                 // You can replace this with the appropriate route for your dashboard
               }),
           DrawerListTile(
-              title: 'Payments List',
+              title: 'Reclamation List',
               svgSrc: 'assets/icons/BlogPost.svg',
               tap: () {
                 // Navigate to PaymentList when the tile is tapped
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PaymentList()),
+                  MaterialPageRoute(builder: (context) => ReclamationList()),
                 );
               }),
 
