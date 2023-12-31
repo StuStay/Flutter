@@ -1,12 +1,38 @@
-// payment_list.dart
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+
 class PaymentList extends StatefulWidget {
   @override
   _PaymentListState createState() => _PaymentListState();
+}
+class PaymentDetailsScreen extends StatelessWidget {
+  final Map<String, dynamic> payment;
+
+  PaymentDetailsScreen({required this.payment});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Payment Details'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Amount: \$${payment['amount'].toStringAsFixed(2)}'),
+            Text('Date: ${payment['date']}'),
+            Text('Method: ${payment['method']}'),
+            Text('Number of Roommates: ${payment['numberOfRoommates']}'),
+            Text('Payment Type: ${payment['paymentType'].join(', ')}'),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _PaymentListState extends State<PaymentList> {
@@ -26,7 +52,7 @@ class _PaymentListState extends State<PaymentList> {
     });
 
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.3:3000/api/payments'));
+      final response = await http.get(Uri.parse('http://192.168.1.6:3000/api/payments'));
 
       if (response.statusCode == 200) {
         final List<dynamic> fetchedPayments = json.decode(response.body);
@@ -50,7 +76,7 @@ class _PaymentListState extends State<PaymentList> {
   Future<void> _deletePayment(String paymentId, int paymentIndex) async {
     try {
       if (paymentIndex >= 0 && paymentIndex < payments.length) {
-        final response = await http.delete(Uri.parse('http://192.168.1.3:3000/api/payments/$paymentId'));
+        final response = await http.delete(Uri.parse('http://192.168.1.6:3000/api/payments/$paymentId'));
 
         if (response.statusCode == 200) {
           setState(() {
@@ -59,28 +85,27 @@ class _PaymentListState extends State<PaymentList> {
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Payment deleted successfully'),
+              content: Text('Payment refunded successfully'),
               duration: Duration(seconds: 2),
             ),
           );
         } else {
-          throw Exception('Failed to delete payment');
+          throw Exception('Failed to refund payment');
         }
       } else {
         throw RangeError('Index out of range');
       }
     } catch (e) {
-      print('Error deleting payment: $e');
+      print('Error refunding payment: $e');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error deleting payment'),
+          content: Text('Error refunding payment'),
           duration: Duration(seconds: 2),
         ),
       );
     }
   }
-
 
   Widget _buildYearHeader(int year) {
     return Container(
@@ -97,6 +122,8 @@ class _PaymentListState extends State<PaymentList> {
   }
 
   Widget _buildPaymentItem(BuildContext context, int index, double amount, DateTime date, String paymentMethod) {
+    final payment = payments[index];
+
     return ListTile(
       title: Text('Payment #$index'),
       subtitle: Column(
@@ -108,17 +135,22 @@ class _PaymentListState extends State<PaymentList> {
         ],
       ),
       trailing: IconButton(
-        icon: Icon(Icons.delete, color: Colors.cyan),
+        icon: Icon(Icons.recycling, color: Colors.cyan),
         onPressed: () async {
           bool deleteConfirmed = await _showDeleteConfirmationDialog(context);
           if (deleteConfirmed) {
-            _deletePayment(payments[index]['_id'], index);
+            _deletePayment(payment['_id'], index);
           }
         },
-        tooltip: 'Delete Payment',
+        tooltip: 'Refund Payment',
       ),
       onTap: () {
-        // Add your logic for handling the tap on a payment entry
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PaymentDetailsScreen(payment: payment),
+          ),
+        );
       },
     );
   }
@@ -127,20 +159,20 @@ class _PaymentListState extends State<PaymentList> {
     return await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete Payment'),
-        content: Text('Are you sure you want to delete this payment?'),
+        title: Text('Refund Payment'),
+        content: Text('Are you sure you want to refund this payment?'),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context, false); // Close the dialog
+              Navigator.pop(context, false);
             },
             child: Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context, true); // Close the dialog and return true
+              Navigator.pop(context, true);
             },
-            child: Text('Delete'),
+            child: Text('Refund'),
           ),
         ],
       ),
