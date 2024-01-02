@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../../constants/constants.dart';
-import '../../data/radial_painter.dart';
-
 class UsersByDevice extends StatefulWidget {
   @override
   _UsersByDeviceState createState() => _UsersByDeviceState();
 }
 
 class _UsersByDeviceState extends State<UsersByDevice> {
-  double logementPercentage = 0.0;
-  double logementactivePercentage = 0.0;
+  double logementPercentageInf500 = 0.0;
+  double logementPercentage500to1000 = 0.0;
 
   @override
   void initState() {
@@ -22,85 +19,27 @@ class _UsersByDeviceState extends State<UsersByDevice> {
 
   Future<void> _fetchLogementMethods() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/api/logements'));
+      final response = await http.get(Uri.parse('http://192.168.1.2:3000/api/logements'));
 
       if (response.statusCode == 200) {
-      final List<dynamic> logementData = json.decode(response.body);
-final int totalLogements = logementData.length;
+        final List<dynamic> logementData = json.decode(response.body);
+        final int totalLogements = logementData.length;
 
-int logementAvecPrixInferieur500 = 0;
-int logementAvecPrixEntre500Et1000 = 0;
-int logementAvecPrixSuperieur1000 = 0;
+        int logementAvecPrixInf500 = 0;
+        int logementAvecPrix500to1000 = 0;
 
-int logementAvecUneChambre = 0;
-int logementAvecDeuxChambres = 0;
-int logementAvecTroisChambresOuPlus = 0;
+        logementData.forEach((logement) {
+          final int prix = logement['prix'];
 
-// Autres champs à ajouter selon votre modèle Logement
-int logementAvecImages = 0;
-int logementAvecTitre = 0;
-int logementAvecDescription = 0;
-int logementAvecNom = 0;
-int logementAvecContact = 0;
-int logementAvecLieu = 0;
+          if (prix < 500) {
+            logementAvecPrixInf500++;
+          } else if (prix >= 500 && prix <= 1000) {
+            logementAvecPrix500to1000++;
+          }
+        });
 
-logementData.forEach((logement) {
-  final List<dynamic> images = logement['images'];
-  final String titre = logement['titre'];
-  final String description = logement['description'];
-  final String nom = logement['nom'];
-  final int nombreChambre = logement['nombreChambre'];
-  final int prix = logement['prix'];
-  final String contact = logement['contact'];
-  final String lieu = logement['lieu'];
-  // Ajoutez d'autres champs selon votre modèle Logement
-
-  // Logique pour le champ 'prix'
-  if (prix < 500) {
-    logementAvecPrixInferieur500++;
-  } else if (prix >= 500 && prix <= 1000) {
-    logementAvecPrixEntre500Et1000++;
-  } else {
-    logementAvecPrixSuperieur1000++;
-  }
-
-  // Logique pour le champ 'nombreChambre'
-  if (nombreChambre == 1) {
-    logementAvecUneChambre++;
-  } else if (nombreChambre == 2) {
-    logementAvecDeuxChambres++;
-  } else {
-    logementAvecTroisChambresOuPlus++;
-  }
-
-  // Logique pour d'autres champs
-  if (images.isNotEmpty) {
-    logementAvecImages++;
-  }
-
-  if (titre.isNotEmpty) {
-    logementAvecTitre++;
-  }
-
-  if (description.isNotEmpty) {
-    logementAvecDescription++;
-  }
-
-  if (nom.isNotEmpty) {
-    logementAvecNom++;
-  }
-
-  if (contact.isNotEmpty) {
-    logementAvecContact++;
-  }
-
-  if (lieu.isNotEmpty) {
-    logementAvecLieu++;
-  }
-});
-
-logementPercentage = logementAvecPrixInferieur500 / totalLogements;
-logementactivePercentage = logementAvecPrixEntre500Et1000 / totalLogements;
+        logementPercentageInf500 = logementAvecPrixInf500 / totalLogements;
+        logementPercentage500to1000 = logementAvecPrix500to1000 / totalLogements;
         setState(() {});
       } else {
         throw Exception('Failed to load Housing methods');
@@ -110,66 +49,79 @@ logementactivePercentage = logementAvecPrixEntre500Et1000 / totalLogements;
     }
   }
 
+  Widget _buildCircularIndicator(double percentage, String label) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircularProgressIndicator(
+          value: percentage,
+          backgroundColor: Colors.grey[300],
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+        ),
+        SizedBox(height: 8),
+        Text(
+          '${(percentage * 100).toStringAsFixed(2)}%',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-   return Padding(
-    padding: const EdgeInsets.only(top: appPadding),
-    child: Container(
-      height: 350,
-      decoration: BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: EdgeInsets.all(appPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Housing Method',
-            style: TextStyle(
-              color: textColor,
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(height: appPadding),
-          Expanded(
-            child: CustomPaint(
-                   foregroundPainter: RadialPainter(
-                  bgColor: textColor.withOpacity(0.1),
-                  lineColor1: Colors.grey, // Color for Cash
-                  lineColor2: Colors.blue, // Color for Credit Card (changed to blue)
-                  percent1: logementPercentage,
-                  percent2: logementactivePercentage,
-                  width: 18.0,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Container(
+        height: 350,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Price',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
               ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${(logementPercentage * 100).toStringAsFixed(2)}%',
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'logement',
-                      style: TextStyle(
-                        color: textColor.withOpacity(0.5),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+            ),
+            SizedBox(height: 16),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _buildCircularIndicator(logementPercentageInf500, 'Less than 500 DT'),
+                      _buildCircularIndicator(logementPercentage500to1000, 'Between 500 and 1000 DT'),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
+    );
   }
 }

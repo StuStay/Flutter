@@ -17,7 +17,7 @@ class DiscussionInfoDetail extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(40),
             child: Image.asset(
-              info.imageSrc!,
+              info.images!,
               height: 38,
               width: 38,
               fit: BoxFit.cover,

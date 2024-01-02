@@ -7,7 +7,7 @@ class TopReferals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
-      future: _fetchTopReferalsLogement(),
+      future: _fetchTopReferralsLogement(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
@@ -16,7 +16,7 @@ class TopReferals extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Text('No data available');
         } else {
-          List<dynamic> TopReferals = snapshot.data!;
+          List<dynamic> topReferrals = snapshot.data!;
 
           return Container(
             height: 350,
@@ -52,12 +52,12 @@ class TopReferals extends StatelessWidget {
                 SizedBox(
                   height: appPadding,
                 ),
-                for (int i = 0; i < TopReferals.length; i++)
+                for (int i = 0; i < topReferrals.length; i++)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Logement ${i + 1}: \$${TopReferals[i]['titre'] ?? 0}',
+                        'Logement ${i + 1}: ${topReferrals[i]['titre'] ?? 'N/A'}',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class TopReferals extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'ID: ${TopReferals[i]['_id'] ?? 'N/A'}',
+                        'ID: ${topReferrals[i]['_id'] ?? 'N/A'}',
                         style: TextStyle(
                           fontSize: 12,
                           color: textColor.withOpacity(0.7),
@@ -87,13 +87,13 @@ class TopReferals extends StatelessWidget {
     );
   }
 
-  Future<List<dynamic>> _fetchTopReferalsLogement() async {
+  Future<List<dynamic>> _fetchTopReferralsLogement() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/api/logements'));
+      final response = await http.get(Uri.parse('http://192.168.1.2:3000/api/logements'));
 
       if (response.statusCode == 200) {
         final List<dynamic> fetchedLogementsLogement = json.decode(response.body);
-        fetchedLogementsLogement.sort((a, b) => (b['titre'] ?? 0).compareTo(a['titre'] ?? 0));
+        fetchedLogementsLogement.sort((a, b) => (b['titre'] ?? '').compareTo(a['titre'] ?? ''));
         return fetchedLogementsLogement.take(4).toList();
       } else {
         throw Exception('Failed to load Logements');

@@ -34,11 +34,12 @@ class _ViewLineChartState extends State<ViewLineChart> {
             bottomTitles: SideTitles(
               showTitles: true,
               reservedSize: 22,
-              getTextStyles: (value) => TextStyle(
-                color: lightTextColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
+             getTextStyles: (BuildContext context, double value) => TextStyle(
+  color: lightTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 14,
+),
+
               getTitles: (value) {
                 return '${value.toInt()}'; // Use the actual day values
               },
