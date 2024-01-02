@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_admin_dashboard/constants/constants_r.dart';
 import 'package:responsive_admin_dashboard/constants/responsive_r.dart';
 
-class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({Key? key}) : super(key: key);
+class ProfileInfoReservation extends StatelessWidget {
+  const ProfileInfoReservation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ProfileInfo extends StatelessWidget {
                   width: 10,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.cyan,
+                    color: red,
                   ),
                 ),
               )
@@ -42,13 +42,18 @@ class ProfileInfo extends StatelessWidget {
           child: Row(
             children: [
               ClipRRect(
-
+                child: Image.asset(
+                  'assets/images/photo3.jpg',
+                  height: 38,
+                  width: 38,
+                  fit: BoxFit.cover,
+                ),
                 borderRadius: BorderRadius.circular(30),
               ),
               if(!Responsive.isMobile(context))
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: appPadding / 2),
-                child: Text('Hii, Admin',style: TextStyle(
+                child: Text('Hii, Arinalis',style: TextStyle(
                   color: textColor,
                   fontWeight: FontWeight.w800,
                 ),),

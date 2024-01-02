@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_admin_dashboard/constants/constants_r.dart';
 import 'package:responsive_admin_dashboard/constants/responsive_r.dart';
-import 'package:responsive_admin_dashboard/screens/components/analytic_cards.dart';
-import 'package:responsive_admin_dashboard/screens/components/custom_appbar.dart';
-import 'package:responsive_admin_dashboard/screens/components/top_referals.dart';
-import 'package:responsive_admin_dashboard/screens/components/users.dart';
-import 'package:responsive_admin_dashboard/screens/components/users_by_device.dart';
-import 'package:responsive_admin_dashboard/screens/components/viewers.dart';
+import 'package:responsive_admin_dashboard/screens/components/analytic_cards_reservation.dart';
+import 'package:responsive_admin_dashboard/screens/components/custom_appbar_reservation.dart';
+import 'package:responsive_admin_dashboard/screens/components/top_referals_reservation.dart';
+import 'package:responsive_admin_dashboard/screens/components/users_reservation.dart';
+import 'package:responsive_admin_dashboard/screens/components/reservation_by_device.dart';
+import 'package:responsive_admin_dashboard/screens/components/viewers_reservation.dart';
 
 
-class DashboardContent extends StatelessWidget {
-  const DashboardContent({Key? key}) : super(key: key);
+
+class DashboardContentReservation extends StatelessWidget {
+  const DashboardContentReservation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class DashboardContent extends StatelessWidget {
         padding: EdgeInsets.all(appPadding),
         child: Column(
           children: [
-            CustomAppbar(),
+            CustomAppbarReservation(),
             SizedBox(
               height: appPadding,
             ),
@@ -33,15 +34,16 @@ class DashboardContent extends StatelessWidget {
                       flex: 5,
                       child: Column(
                         children: [
-                          AnalyticCards(),
+                          AnalyticCardsReservation(),
                           SizedBox(
                             height: appPadding,
                           ),
-                          Users(),
+                          UsersReservation(),
                           if (Responsive.isMobile(context))
                             SizedBox(
                               height: appPadding,
                             ),
+                         
                         ],
                       ),
                     ),
@@ -49,11 +51,7 @@ class DashboardContent extends StatelessWidget {
                       SizedBox(
                         width: appPadding,
                       ),
-                    if (!Responsive.isMobile(context))
-                      Expanded(
-                        flex: 2,
-                        child: UsersByDevice(),
-                      ),
+                    
                   ],
                 ),
                 Row(
@@ -68,16 +66,18 @@ class DashboardContent extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              if(!Responsive.isMobile(context))
+                              if (!Responsive.isMobile(context))
                                 Expanded(
-                                  child: TopReferals(),
+                                  child: TopReferalsReservation(),
                                   flex: 2,
                                 ),
-                              if(!Responsive.isMobile(context))
-                                SizedBox(width: appPadding,),
+                              if (!Responsive.isMobile(context))
+                                SizedBox(
+                                  width: appPadding,
+                                ),
                               Expanded(
                                 flex: 3,
-                                child: PaymentsPerYearChart(),
+                                child: ViewersReservation(),
                               ),
                             ],
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,6 +89,12 @@ class DashboardContent extends StatelessWidget {
                             SizedBox(
                               height: appPadding,
                             ),
+                          if (Responsive.isMobile(context)) TopReferalsReservation(),
+                          if (Responsive.isMobile(context))
+                            SizedBox(
+                              height: appPadding,
+                            ),
+                          if (Responsive.isMobile(context)) ReservationByDevice(),
                         ],
                       ),
                     ),
@@ -96,7 +102,11 @@ class DashboardContent extends StatelessWidget {
                       SizedBox(
                         width: appPadding,
                       ),
-
+                    if (!Responsive.isMobile(context))
+                      Expanded(
+                        flex: 2,
+                        child: ReservationByDevice(),
+                      ),
                   ],
                 ),
               ],

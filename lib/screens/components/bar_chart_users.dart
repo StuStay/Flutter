@@ -1,12 +1,66 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_admin_dashboard/constants/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class BarChartPayments extends StatelessWidget {
+import 'package:responsive_admin_dashboard/constants/constants_r.dart';
+
+
+class BarChartPayments extends StatefulWidget {
   const BarChartPayments({Key? key}) : super(key: key);
 
   @override
+  _BarChartPaymentsState createState() => _BarChartPaymentsState();
+}
+
+class _BarChartPaymentsState extends State<BarChartPayments> {
+  List<DataPoint> dataPoints = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDataPoints();
+  }
+
+  Future<void> _fetchDataPoints() async {
+    try {
+      final response = await http.get(Uri.parse('http://192.168.1.18:3000/api/payments'));
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(response.body);
+
+        final Map<int, double> amountsByYear = {};
+
+        jsonData.forEach((data) {
+          int year = _parseDate(data['date']).year;
+          amountsByYear[year] = (amountsByYear[year] ?? 0) + data['amount'].toDouble();
+        });
+
+        final List<DataPoint> fetchedDataPoints = amountsByYear.entries.map((entry) {
+          return DataPoint(
+            x: entry.key.toDouble(),
+            y: entry.value,
+          );
+        }).toList();
+
+        setState(() {
+          dataPoints = fetchedDataPoints;
+        });
+      } else {
+        throw Exception('Failed to load data points');
+      }
+    } catch (e) {
+      print('Error fetching data points: $e');
+    }
+  }
+
+  DateTime _parseDate(String dateString) {
+    return DateTime.parse(dateString);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(dataPoints);
+
     return BarChart(
       BarChartData(
         borderData: FlBorderData(border: Border.all(width: 0)),
@@ -21,19 +75,9 @@ class BarChartPayments extends StatelessWidget {
               fontSize: 12,
             ),
             margin: appPadding,
+            rotateAngle: -45,
             getTitles: (double value) {
-              switch (value.toInt()) {
-                case 1:
-                  return 'Jan';
-                case 2:
-                  return 'Feb';
-                case 3:
-                  return 'Mar';
-                case 4:
-                  return 'Apr';
-                default:
-                  return '';
-              }
+              return value.toInt().toString();
             },
           ),
           leftTitles: SideTitles(
@@ -45,66 +89,34 @@ class BarChartPayments extends StatelessWidget {
             ),
             margin: appPadding,
             getTitles: (double value) {
-              switch (value.toInt()) {
-                case 500:
-                  return '500';
-                case 1000:
-                  return '1000';
-                case 1500:
-                  return '1500';
-                default:
-                  return '';
+              if (value % 500 == 0) {
+                return '${value.toInt()} TND';
               }
+              return '';
             },
           ),
         ),
-        barGroups: [
-          BarChartGroupData(
-            x: 1,
+        barGroups: dataPoints.map((dataPoint) {
+          return BarChartGroupData(
+            x: dataPoint.x.toInt(),
             barRods: [
               BarChartRodData(
-                y: 200,
+                y: dataPoint.y,
                 width: 20,
                 colors: [primaryColor],
                 borderRadius: BorderRadius.circular(5),
               ),
             ],
-          ),
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(
-                y: 800,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ],
-          ),
-          BarChartGroupData(
-            x: 3,
-            barRods: [
-              BarChartRodData(
-                y: 1200,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ],
-          ),
-          BarChartGroupData(
-            x: 4,
-            barRods: [
-              BarChartRodData(
-                y: 600,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ],
-          ),
-        ],
+          );
+        }).toList(),
       ),
     );
   }
+}
+
+class DataPoint {
+  final double x;
+  final double y;
+
+  DataPoint({required this.x, required this.y});
 }

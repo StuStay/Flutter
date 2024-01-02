@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_admin_dashboard/constants/constants.dart';
+import 'package:responsive_admin_dashboard/constants/constants_r.dart';
 import 'package:responsive_admin_dashboard/screens/components/drawer_list_tile.dart';
-import 'payment_list.dart'; // Import your PaymentList widget
+
+import 'payment_list.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
@@ -13,33 +14,22 @@ class DrawerMenu extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(appPadding),
-            child: Image.asset("assets/images/StuStay.png"),
+            child: Image.asset("assets/images/385538763_990613692033329_7976933523789713360_n (1).png"),
           ),
-          DrawerListTile(
-              title: 'Dash Board',
-              svgSrc: 'assets/icons/Dashboard.svg',
-              tap: () {
-                // Navigate to Dashboard
-                // You can replace this with the appropriate route for your dashboard
-              }),
+
           DrawerListTile(
               title: 'Payments List',
               svgSrc: 'assets/icons/BlogPost.svg',
               tap: () {
-                // Navigate to PaymentList when the tile is tapped
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => PaymentList()),
                 );
               }),
 
-          DrawerListTile(
-              title: 'Statistics',
-              svgSrc: 'assets/icons/Statistics.svg',
-              tap: () {
-                // Navigate to Statistics
-                // You can replace this with the appropriate route for your statistics
-              }),
+
+
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: appPadding * 2),
             child: Divider(

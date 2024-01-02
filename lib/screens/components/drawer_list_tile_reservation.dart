@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_admin_dashboard/constants/constants_r.dart';
 
-class DrawerListTile extends StatelessWidget {
-  const DrawerListTile({Key? key, required this.title, required this.svgSrc, required this.tap}) : super(key: key);
+class DrawerListTileReservation extends StatelessWidget {
+  const DrawerListTileReservation({Key? key, required this.title, required this.svgSrc, required this.tap}) : super(key: key);
 
   final String title, svgSrc;
   final VoidCallback tap;

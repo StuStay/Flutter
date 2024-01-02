@@ -1,13 +1,12 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:responsive_admin_dashboard/constants/constants_r.dart';
 import 'package:responsive_admin_dashboard/constants/responsive_r.dart';
-import 'package:responsive_admin_dashboard/data/data.dart';
-import 'package:responsive_admin_dashboard/screens/components/analytic_info_card.dart';
+import 'package:responsive_admin_dashboard/data/data_r.dart';
 
-class AnalyticCards extends StatelessWidget {
-  const AnalyticCards({Key? key}) : super(key: key);
+import 'analytic_info_card_reservation.dart';
+
+class AnalyticCardsReservation extends StatelessWidget {
+  const AnalyticCardsReservation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +43,15 @@ class AnalyticInfoCardGridView extends StatelessWidget {
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: analyticData.length,
+      itemCount: analyticDatar.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         crossAxisSpacing: appPadding,
         mainAxisSpacing: appPadding,
         childAspectRatio: childAspectRatio,
       ),
-      itemBuilder: (context, index) => AnalyticInfoCard(
-        info: analyticData[index],
+      itemBuilder: (context, index) => AnalyticInfoCardReservation(
+        info: analyticDatar[index],
       ),
     );
   }

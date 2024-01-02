@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class RadialPainter extends CustomPainter {
-  const RadialPainter({
+class RadialPainterReservation extends CustomPainter {
+  const RadialPainterReservation({
     required this.bgColor,
     required this.lineColor,
     required this.percent,
-    required this.width, required MaterialColor lineColor1, required MaterialColor lineColor2, required double percent1, required double percent2,
+    required this.width,
   });
 
   final Color bgColor;

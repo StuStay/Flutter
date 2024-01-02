@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_admin_dashboard/constants/constants_r.dart';
 
-class SearchField extends StatelessWidget {
-  const SearchField({Key? key}) : super(key: key);
+class SearchFieldReservation extends StatelessWidget {
+  const SearchFieldReservation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
+        hintText: "Search for Statistics",
         helperStyle: TextStyle(
           color: textColor.withOpacity(0.5),fontSize: 15,
         ),

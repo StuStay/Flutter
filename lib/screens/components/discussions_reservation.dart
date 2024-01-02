@@ -1,15 +1,14 @@
-
 import 'package:flutter/material.dart';
-import 'package:responsive_admin_dashboard/constants/constants.dart';
+import 'package:responsive_admin_dashboard/constants/constants_r.dart';
+import 'package:responsive_admin_dashboard/data/data_r.dart';
 
-import 'discussion_info_detail.dart';
+import 'discussion_info_detail_r.dart';
 
-class Discussions extends StatelessWidget {
-  const Discussions({Key? key}) : super(key: key);
+class DiscussionsReservation extends StatelessWidget {
+  const DiscussionsReservation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var discussionData;
     return Container(
       height: 540,
       padding: EdgeInsets.all(appPadding),
@@ -49,7 +48,9 @@ class Discussions extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: discussionData.length,
-              itemBuilder: (context, index) => DiscussionInfoDetail(info: discussionData[index],),
+              itemBuilder: (context, index) => DiscussionInfoDetailReservation(
+                info: discussionData[index],
+              ),
             ),
           )
         ],

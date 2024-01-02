@@ -1,66 +1,68 @@
-import 'package:fl_chart/fl_chart.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:fl_chart/fl_chart.dart';
 
-class PaymentsPerYearChart extends StatefulWidget {
-  const PaymentsPerYearChart({Key? key}) : super(key: key);
+class ViewersReservation extends StatefulWidget {
+  const ViewersReservation({Key? key}) : super(key: key);
 
   @override
-  _PaymentsPerYearChartState createState() => _PaymentsPerYearChartState();
+  _ViewersState createState() => _ViewersState();
 }
 
-class _PaymentsPerYearChartState extends State<PaymentsPerYearChart> {
+class _ViewersState extends State<ViewersReservation> {
   List<DataPoint> dataPoints = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchDataPoints();
+    fetchData();
   }
 
-  Future<void> _fetchDataPoints() async {
-    try {
-      final response = await http.get(Uri.parse('http://192.168.1.18:3000/api/payments'));
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonData = json.decode(response.body);
+  Future<void> fetchData() async {
+    final response = await http.get(Uri.parse('http://192.168.1.18:3000/api/reservations'));
 
-        final Map<int, int> paymentsByYear = {};
+    if (response.statusCode == 200) {
+      try {
+        final List<Map<String, dynamic>> reservations = (json.decode(response.body) as List<dynamic>)
+            .cast<Map<String, dynamic>>();
 
-        jsonData.forEach((data) {
-          int year = _parseDate(data['date']).year;
-          paymentsByYear[year] = (paymentsByYear[year] ?? 0) + 1;
-        });
+        final Map<int, int> reservationsPerYear = {};
+
+        // Sum the number of reservations per year
+        for (final reservation in reservations) {
+          final DateTime checkInDate = DateTime.parse(reservation['checkInDate']);
+          final int year = checkInDate.year;
+
+          reservationsPerYear.update(year, (value) => value + 1, ifAbsent: () => 1);
+        }
 
         final List<DataPoint> fetchedDataPoints = [];
 
         for (int year = DateTime.now().year - 5; year <= DateTime.now().year; year++) {
           fetchedDataPoints.add(DataPoint(
             x: year.toDouble(),
-            y: paymentsByYear[year]?.toDouble() ?? 0,
+            y: reservationsPerYear[year]?.toDouble() ?? 0,
           ));
         }
 
         setState(() {
           dataPoints = fetchedDataPoints;
         });
-      } else {
-        throw Exception('Failed to load data points');
+      } catch (e) {
+        print('Error decoding JSON: $e');
       }
-    } catch (e) {
-      print('Error fetching data points: $e');
+    } else {
+      // Handle error
+      print('Failed to load data. Status code: ${response.statusCode}');
+      print('Raw response body: ${response.body}');
     }
-  }
-
-  // Convert date string to DateTime
-  DateTime _parseDate(String dateString) {
-    return DateTime.parse(dateString);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300, // Set the desired height
+      height: 300,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,

@@ -1,8 +1,5 @@
-
-import 'package:responsive_admin_dashboard/constants/constants.dart';
+import 'package:responsive_admin_dashboard/constants/constants_r.dart';
 import 'package:responsive_admin_dashboard/models/analytic_info_model.dart';
-import 'package:responsive_admin_dashboard/models/discussions_info_model.dart';
-import 'package:responsive_admin_dashboard/models/referal_info_model.dart';
 
 List<AnalyticInfo> analyticData = [
   AnalyticInfo(
@@ -33,30 +30,3 @@ List<AnalyticInfo> analyticData = [
 
 
 
-List referalData = [
-  ReferalInfoModel(
-    title: "Ahmed Maadi",
-    count: 500,
-    svgSrc: "",
-    color: primaryColor,
-  ),
-  ReferalInfoModel(
-    title: "Med Amine Bouallegue",
-    count: 440,
-    svgSrc: "",
-    color: primaryColor,
-  ),
-  ReferalInfoModel(
-    title: "Malek Saker",
-    count: 234,
-    svgSrc: "",
-    color: primaryColor,
-  ),
-
-  ReferalInfoModel(
-    title: "Khmayes Bonguicha",
-    count: 105,
-    svgSrc: "",
-    color: red,
-  ),
-];

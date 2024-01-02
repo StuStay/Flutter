@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:responsive_admin_dashboard/constants/constants_r.dart';
-import 'package:responsive_admin_dashboard/screens/components/bar_chart_users.dart';
 
-class Users extends StatelessWidget {
-  const Users({Key? key}) : super(key: key);
+import 'bar_chart_users_reservation.dart';
+
+class UsersReservation extends StatelessWidget {
+  const UsersReservation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Users extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Number of Payments ",
+            "Location Analysis",
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 15,
@@ -28,7 +28,7 @@ class Users extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: BarChartPayments(),
+            child: BarChartUsersReservation(),
           )
         ],
       ),

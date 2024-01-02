@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_admin_dashboard/constants/constants.dart';
-import 'package:responsive_admin_dashboard/constants/responsive.dart';
+
+import 'package:provider/provider.dart';
+import 'package:responsive_admin_dashboard/constants/constants_r.dart';
+import 'package:responsive_admin_dashboard/constants/responsive_r.dart';
 import 'package:responsive_admin_dashboard/controllers/controller.dart';
 import 'package:responsive_admin_dashboard/screens/components/profile_info.dart';
 import 'package:responsive_admin_dashboard/screens/components/search_field.dart';
-import 'package:provider/provider.dart';
 
 class CustomAppbar extends StatelessWidget {
   const CustomAppbar({Key? key}) : super(key: key);

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_admin_dashboard/constants/constants_r.dart';
-import 'package:responsive_admin_dashboard/models/analytic_info_model.dart';
+import 'package:responsive_admin_dashboard/models/analytic_info_model_r.dart';
 
+class AnalyticInfoCardReservation extends StatelessWidget {
+  const AnalyticInfoCardReservation({Key? key, required this.info}) : super(key: key);
 
-class AnalyticInfoCard extends StatelessWidget {
-  const AnalyticInfoCard({Key? key, required this.info}) : super(key: key);
-
-  final AnalyticInfo info;
+  final AnalyticInfor info;
 
   @override
   Widget build(BuildContext context) {
